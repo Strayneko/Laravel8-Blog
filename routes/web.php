@@ -23,7 +23,8 @@ Route::get('/posts/{slug}', function (String $slug) {
     // check if post file exist
     if (!file_exists($path)) return redirect()->to('/');
 
-    $post = file_get_contents($path);
+    // caching to improve webiste performance for 1200 seconds / 20min
+    $post = cache()->remember("posts.{$slug}", 1200, fn () => file_get_contents($path));
 
     return view('post', [
         'post' => $post,
