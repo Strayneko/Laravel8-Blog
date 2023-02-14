@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\PostDb;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,15 +15,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// model only without database
 Route::get('/', function () {
     return view('posts', [
         'posts' => Post::all()
     ]);
 });
 
-Route::get('/posts/{slug}', function (String $slug) {
+Route::get('/posts/{slug}', function ($slug) {
 
     return view('post', [
         'post' => Post::find($slug),
+    ]);
+});
+
+
+// with model and database
+Route::get('/db/posts', function () {
+    return view('posts', [
+        'posts' => PostDb::all()
+    ]);
+});
+
+Route::get('/db/posts/{id}', function ($id) {
+    return view('post', [
+        'post' => PostDb::findOrFail($id),
     ]);
 });
