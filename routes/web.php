@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostDb;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +39,16 @@ Route::get('/db/posts', function () {
     ]);
 });
 
-Route::get('/db/posts/{id}', function ($id) {
+// route model binding
+Route::get('/db/posts/{post:slug}', function (PostDb $post) {
     return view('post', [
-        'post' => PostDb::findOrFail($id),
+        'post' => $post,
+    ]);
+});
+
+
+Route::get('/db/category/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'posts' => $category->posts,
     ]);
 });

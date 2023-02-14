@@ -8,6 +8,6 @@
         <h1>{{ $post->title }}</h1>
    {!! $post->body !!}
     </article>
-    <a href="/">Back</a>
+    <a href="/db/posts">Back</a>
 </div>
 @endsection
