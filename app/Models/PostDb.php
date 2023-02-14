@@ -22,4 +22,10 @@ class PostDb extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    // relation to user model
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

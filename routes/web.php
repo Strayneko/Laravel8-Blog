@@ -35,7 +35,7 @@ Route::get('/posts/{slug}', function ($slug) {
 // with model and database
 Route::get('/db/posts', function () {
     return view('posts', [
-        'posts' => PostDb::all()
+        'posts' => PostDb::with('category')->get(),
     ]);
 });
 

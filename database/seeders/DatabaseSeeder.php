@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Category;
+use App\Models\PostDb;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +16,54 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // delete all records from the tables below
+        User::truncate();
+        Category::truncate();
+        PostDb::truncate();
+
+        // user factory
+        $user =   User::factory()->create();
+
+
+        $personal = Category::create([
+            'name' => 'Personal',
+            'slug' => 'personal'
+        ]);
+
+        $work = Category::create([
+            'name' => 'Work',
+            'slug' => 'work'
+        ]);
+
+        $hobbies = Category::create([
+            'name' => 'Hobbies',
+            'slug' => 'hobbies'
+        ]);
+
+
+        PostDb::create([
+            'user_id' => $user->id,
+            'category_id' => $personal->id,
+            'title' => 'My First Post',
+            'slug' => 'my-first-post',
+            'excerpt' => 'lorem aklsdkl;asdkjajdfkljaskldaosfshbdfasf',
+            'body' => '<p>asddddddddddddasd asfksdjfklajsdlkasdj jkashfkasdjaskldasd</p>'
+        ]);
+        PostDb::create([
+            'user_id' => $user->id,
+            'category_id' => $work->id,
+            'title' => 'My second Post',
+            'slug' => 'my-second-post',
+            'excerpt' => 'lorem aklsdkl;asdkjajdfkljaskldaosfshbdfasf',
+            'body' => '<p>asddddddddddddasd asfksdjfklajsdlkasdj jkashfkasdjaskldasd</p>'
+        ]);
+        PostDb::create([
+            'user_id' => $user->id,
+            'category_id' => $hobbies->id,
+            'title' => 'My third Post',
+            'slug' => 'my-third-post',
+            'excerpt' => 'lorem aklsdkl;asdkjajdfkljaskldaosfshbdfasf',
+            'body' => '<p>asddddddddddddasd asfksdjfklajsdlkasdj jkashfkasdjaskldasd</p>'
+        ]);
     }
 }

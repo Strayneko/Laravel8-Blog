@@ -5,7 +5,8 @@
     <a href="/db/posts/{{ $post->slug }}">
       <h1>{{ $post->title }}</h1>
     </a>
-    <p>
+    <p>By : <a href="#">{{ $post->user->name }}</a>
+      in
       <a href="/db/category/{{ $post->category->slug }}">{{ $post->category->name }}</a>
     </p>
     {{ $post->excerpt }}
