@@ -20,13 +20,13 @@ class Post
     }
 
     // get all post
-    public static function all()
+    public static function all(): object
     {
         // get all files in posts directory
         $files = File::files(resource_path('posts/'));
 
         // wrap files into laravel collection
-        return collect($files)
+        $posts =  collect($files)
             ->map(fn ($file) => YamlFrontMatter::parseFile($file)) // parse file to get post metadata
             ->map(fn ($document) => new Post(
                 title: $document->title,
@@ -34,11 +34,15 @@ class Post
                 date: $document->date,
                 body: $document->body(),
                 slug: $document->slug
-            ));
+            ))
+            ->sortByDesc('date'); // sort post from the latest post
+
+        // cache post data for 1200 secs/20mins
+        return cache()->remember('post.all', 1200, fn () => $posts);
     }
 
     // find post by its slug
-    public static function find(String $slug)
+    public static function find(String $slug): object
     {
         // get one post by its slug
         return static::all()->firstWhere('slug', $slug);
