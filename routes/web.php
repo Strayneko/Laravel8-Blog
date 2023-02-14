@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,19 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('posts');
+    return view('posts', [
+        'posts' => Post::all()
+    ]);
 });
 
 Route::get('/posts/{slug}', function (String $slug) {
-    // get post path
-    $path = __DIR__ . "/../resources/posts/{$slug}.html";
-    // check if post file exist
-    if (!file_exists($path)) return redirect()->to('/');
-
-    // caching to improve webiste performance for 1200 seconds / 20min
-    $post = cache()->remember("posts.{$slug}", 1200, fn () => file_get_contents($path));
 
     return view('post', [
-        'post' => $post,
+        'post' => Post::find($slug),
     ]);
 })->where('slug', '[A-z_\-]+'); // add constrain to wildcard
