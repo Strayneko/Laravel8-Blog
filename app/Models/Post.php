@@ -4,28 +4,43 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class Post
 {
+    public $title, $body, $excerpt, $date, $slug;
+
+    public function __construct($title, $body, $excerpt, $date, $slug)
+    {
+        $this->title = $title;
+        $this->body = $body;
+        $this->excerpt = $excerpt;
+        $this->date = $date;
+        $this->slug = $slug;
+    }
+
     // get all post
     public static function all()
     {
         // get all files in posts directory
         $files = File::files(resource_path('posts/'));
 
-        // map files array to get the file content
-        return array_map(fn ($post) => $post->getContents(), $files);
+        // wrap files into laravel collection
+        return collect($files)
+            ->map(fn ($file) => YamlFrontMatter::parseFile($file)) // parse file to get post metadata
+            ->map(fn ($document) => new Post(
+                title: $document->title,
+                excerpt: $document->excerpt,
+                date: $document->date,
+                body: $document->body(),
+                slug: $document->slug
+            ));
     }
 
     // find post by its slug
     public static function find(String $slug)
     {
-        // get post path
-        $path = resource_path("posts/{$slug}.html");
-        // check if post file exist
-        if (!file_exists($path)) throw new ModelNotFoundException();
-
-        // caching the content for 1200 seconds / 20min to improve webiste performance 
-        return cache()->remember("posts.{$slug}", 1200, fn () => file_get_contents($path));
+        // get one post by its slug
+        return static::all()->firstWhere('slug', $slug);
     }
 }
