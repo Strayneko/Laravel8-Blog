@@ -18,10 +18,14 @@ Route::get('/', function () {
 });
 
 Route::get('/posts/{slug}', function (String $slug) {
+    // get post path
     $path = __DIR__ . "/../resources/posts/{$slug}.html";
+    // check if post file exist
     if (!file_exists($path)) return redirect()->to('/');
+
     $post = file_get_contents($path);
+
     return view('post', [
         'post' => $post,
     ]);
-});
+})->where('slug', '[A-z_\-]+'); // add constrain to wildcard
