@@ -25,4 +25,4 @@ Route::get('/posts/{slug}', function (String $slug) {
     return view('post', [
         'post' => Post::find($slug),
     ]);
-})->where('slug', '[A-z_\-]+'); // add constrain to wildcard
+});

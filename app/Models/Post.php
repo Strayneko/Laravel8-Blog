@@ -44,7 +44,8 @@ class Post
     // find post by its slug
     public static function find(String $slug): object
     {
-        // get one post by its slug
-        return static::all()->firstWhere('slug', $slug);
+        // get one post by its slug and if post data is not exists, throw an exception
+        if (!$post = static::all()->firstWhere('slug', $slug)) throw new ModelNotFoundException();
+        return $post;
     }
 }
