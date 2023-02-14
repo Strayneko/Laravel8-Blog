@@ -22,6 +22,7 @@ class PostDbFactory extends Factory
             'slug' => $this->faker->slug(),
             'excerpt' => $this->faker->sentence(),
             'body' => $this->faker->paragraph(),
+            'published_at' => now(),
         ];
     }
 }

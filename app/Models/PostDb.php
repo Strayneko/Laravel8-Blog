@@ -24,8 +24,8 @@ class PostDb extends Model
     }
 
     // relation to user model
-    public function user()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, foreignKey: 'user_id');
     }
 }

@@ -3,6 +3,7 @@
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostDb;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +36,7 @@ Route::get('/posts/{slug}', function ($slug) {
 // with model and database
 Route::get('/db/posts', function () {
     return view('posts', [
-        'posts' => PostDb::with('category')->get(),
+        'posts' => PostDb::with(['category', 'author'])->get(),
     ]);
 });
 
@@ -49,6 +50,13 @@ Route::get('/db/posts/{post:slug}', function (PostDb $post) {
 
 Route::get('/db/category/{category:slug}', function (Category $category) {
     return view('posts', [
-        'posts' => $category->posts,
+        'posts' => $category->posts->load(['author', 'category']),
+    ]);
+});
+
+// get all post by specific author
+Route::get('/db/author/{author:username}', function (User $author) {
+    return view('posts', [
+        'posts' => $author->posts->load(['author', 'category']),
     ]);
 });
