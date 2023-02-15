@@ -1,5 +1,5 @@
 {{-- layouting blade using component --}}
-<x-layout title="All Post">
+<x-styled-layout title="All Post">
   @foreach ($posts as $post)
   <article>
     <a href="/db/posts/{{ $post->slug }}">
@@ -12,5 +12,5 @@
     {{ $post->excerpt }}
   </article>
   @endforeach
-</x-layout>
+</x-styled-layout>
 
