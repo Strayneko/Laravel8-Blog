@@ -22,7 +22,10 @@ class RegisterController extends Controller
             'password' => 'required|min:7|max:255'
         ]);
         // store validated data into database
-        User::create($attributes);
+        $user = User::create($attributes);
+
+        // log the created user in
+        auth()->login($user);
         return redirect()->to('/db/posts')->with('success', 'Account successfully created!');
     }
 }

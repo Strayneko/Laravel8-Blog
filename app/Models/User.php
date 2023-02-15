@@ -53,6 +53,6 @@ class User extends Authenticatable
     // Automatic Password Hashing With Mutators
     public function setPasswordAttribute(String $password)
     {
-        $this->attributes['password'] = bcrypt('password');
+        $this->attributes['password'] = bcrypt($password);
     }
 }

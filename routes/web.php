@@ -2,10 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\PostDb;
-use App\Models\User;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,9 +33,11 @@ Route::get('/db/posts/{post:slug}', [PostController::class, 'show']);
 
 
 
-Route::get('/auth/register', [RegisterController::class, 'create']);
-Route::post('/auth/register', [RegisterController::class, 'store']);
-
+Route::get('/auth/register', [RegisterController::class, 'create'])->middleware('guest');
+Route::get('/auth/login', [SessionController::class, 'create'])->middleware('guest');
+Route::post('/auth/register', [RegisterController::class, 'store'])->middleware('guest');
+Route::post('/auth/login', [SessionController::class, 'store'])->middleware('guest');
+Route::post('/auth/logout', [SessionController::class, 'destroy'])->middleware('auth');
 
 // Route::get('/db/category/{category:slug}', function (Category $category) {
 //     return view('posts', [
