@@ -39,5 +39,21 @@ class PostDb extends Model
                 ->where('title', 'ilike', '%' . $search . '%')
                 ->orWhere('body', 'ilike', '%' . $search . '%')
         );
+
+        // execute the query when there is filters with key category
+        $query->when(
+            $filters['category'] ?? false,
+            fn ($query, $category) =>
+            $query->whereHas('category', fn ($query) => $query->where('slug', $category))
+            //  $query
+            //     ->whereExists(
+            //         fn ($query) =>
+            //         $query
+            //             ->from('categories')
+            //             ->whereColumn('categories.id', 'posts.category_id')
+            //             ->where('categories.slug', $category)
+            //     )
+
+        );
     }
 }

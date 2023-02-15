@@ -1,6 +1,6 @@
 <x-styled-layout>
     {{-- header --}}
-    @include('_post-header')
+    @include('posts._header')
     {{-- end of header --}}
     <section class="px-6 py-8">
 

@@ -2,7 +2,7 @@
 <x-styled-layout title="All Post">
 
     {{-- header --}}
-    @include('_post-header')
+    @include('posts._header')
     {{-- end of header --}}
 
 

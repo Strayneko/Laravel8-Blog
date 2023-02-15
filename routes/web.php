@@ -45,13 +45,13 @@ Route::get('/db/posts', [PostController::class, 'index'])->name('home');
 Route::get('/db/posts/{post:slug}', [PostController::class, 'show']);
 
 
-Route::get('/db/category/{category:slug}', function (Category $category) {
-    return view('posts', [
-        'posts' => $category->posts->load(['author', 'category']),
-        'categories' => Category::all(),
-        'currentCategory' => $category
-    ]);
-});
+// Route::get('/db/category/{category:slug}', function (Category $category) {
+//     return view('posts', [
+//         'posts' => $category->posts->load(['author', 'category']),
+//         'categories' => Category::all(),
+//         'currentCategory' => $category
+//     ]);
+// });
 
 // get all post by specific author
 Route::get('/db/author/{author:username}', function (User $author) {
