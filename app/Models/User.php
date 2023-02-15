@@ -49,4 +49,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(PostDb::class);
     }
+
+    // Automatic Password Hashing With Mutators
+    public function setPasswordAttribute(String $password)
+    {
+        $this->attributes['password'] = bcrypt('password');
+    }
 }
