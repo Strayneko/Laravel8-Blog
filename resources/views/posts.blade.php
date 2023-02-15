@@ -1,6 +1,24 @@
 {{-- layouting blade using component --}}
 <x-styled-layout title="All Post">
-  @foreach ($posts as $post)
+
+
+    <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+        {{-- check if there is atleast 1 post available --}}
+        @if ($posts->count())
+            {{-- Featured post card --}}
+            <x-featured-post-card :post="$posts[0]" />
+            {{-- end of Featured post card --}}
+
+            {{-- Posts --}}
+            <x-posts-grid :posts="$posts" />
+            {{-- end of posts --}}
+        @else
+            <p class="text-center">No post available</p>
+        @endif
+    </main>
+
+
+    {{-- @foreach ($posts as $post)
   <article>
     <a href="/db/posts/{{ $post->slug }}">
       <h1>{{ $post->title }}</h1>
@@ -11,6 +29,5 @@
     </p>
     {{ $post->excerpt }}
   </article>
-  @endforeach
+  @endforeach --}}
 </x-styled-layout>
-
