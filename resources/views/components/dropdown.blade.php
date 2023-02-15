@@ -1,4 +1,4 @@
-<div x-data="{ show: false }" @click.away="show = false">
+<div x-data="{ show: false }" @click.away="show = false" class="overflow-auto max-height-52">
     {{-- trigger --}}
     <div @click="show = !show">
         {{ $trigger }}

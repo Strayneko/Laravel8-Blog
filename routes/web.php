@@ -45,7 +45,7 @@ Route::get('/db/posts', function () {
         'categories' => Category::all(),
 
     ]);
-});
+})->name('home');
 
 // route model binding
 Route::get('/db/posts/{post:slug}', function (PostDb $post) {

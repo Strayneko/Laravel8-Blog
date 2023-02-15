@@ -29,7 +29,7 @@
                 </x-slot>
                 {{-- end of trigger man --}}
 
-                <x-dropdown-item href="/db/posts">All</x-dropdown-item>
+                <x-dropdown-item href="/db/posts" :active="request()->routeIs('home')">All</x-dropdown-item>
                 @foreach ($categories as $category)
                     <x-dropdown-item href="/db/category/{{ $category->slug }}" :active="isset($currentCategory) && $currentCategory->is($category)">
                         {{ ucwords($category->name) }}
