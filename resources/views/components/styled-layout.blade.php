@@ -57,4 +57,8 @@
             </div>
         </footer>
     </section>
+
+    {{-- flash message --}}
+    <x-flash />
+    {{-- end of flash message --}}
 </body>

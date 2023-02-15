@@ -23,6 +23,6 @@ class RegisterController extends Controller
         ]);
         // store validated data into database
         User::create($attributes);
-        return redirect()->to('/db/posts');
+        return redirect()->to('/db/posts')->with('success', 'Account successfully created!');
     }
 }
