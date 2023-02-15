@@ -20,16 +20,20 @@ use Illuminate\Support\Facades\Route;
 
 // model only without database
 Route::get('/', function () {
-    return view('posts', [
-        'posts' => Post::all()
-    ]);
+
+    return redirect()->to('/db/posts');
+    // return view('posts', [
+    //     'posts' => Post::all()
+    // ]);
 });
 
 Route::get('/posts/{slug}', function ($slug) {
+    return redirect()->to('/db/posts');
 
-    return view('post', [
-        'post' => Post::find($slug),
-    ]);
+    // return view('post', [
+    //     'post' => Post::find($slug),
+
+    // ]);
 });
 
 
@@ -38,6 +42,7 @@ Route::get('/db/posts', function () {
     return view('posts', [
         // eager load category and author data to avoid n+1 and get the latest data sorted by published at column
         'posts' => PostDb::with(['category', 'author'])->latest('published_at')->get(),
+        'categories' => Category::all()
     ]);
 });
 
@@ -45,6 +50,7 @@ Route::get('/db/posts', function () {
 Route::get('/db/posts/{post:slug}', function (PostDb $post) {
     return view('post', [
         'post' => $post,
+        'categories' => Category::all(),
     ]);
 });
 
@@ -52,6 +58,8 @@ Route::get('/db/posts/{post:slug}', function (PostDb $post) {
 Route::get('/db/category/{category:slug}', function (Category $category) {
     return view('posts', [
         'posts' => $category->posts->load(['author', 'category']),
+        'categories' => Category::all(),
+        'currentCategory' => $category
     ]);
 });
 
@@ -59,5 +67,6 @@ Route::get('/db/category/{category:slug}', function (Category $category) {
 Route::get('/db/author/{author:username}', function (User $author) {
     return view('posts', [
         'posts' => $author->posts->load(['author', 'category']),
+        'categories' => Category::all(),
     ]);
 });

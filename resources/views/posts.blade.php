@@ -1,6 +1,10 @@
 {{-- layouting blade using component --}}
 <x-styled-layout title="All Post">
 
+    {{-- header --}}
+    @include('_post-header')
+    {{-- end of header --}}
+
 
     <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
         {{-- check if there is atleast 1 post available --}}
