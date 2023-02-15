@@ -12,7 +12,7 @@ class PostController extends Controller
     {
         $posts = PostDb::with(['category', 'author'])
             ->latest('published_at')
-            ->filter(request(['search', 'category']))
+            ->filter(request(['search', 'category', 'author']))
             ->get();
         return view('posts.index', [
             // eager load category and author data to avoid n+1 and get the latest data sorted by published at column

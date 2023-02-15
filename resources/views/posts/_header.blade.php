@@ -42,7 +42,12 @@
 
         <!-- Search -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl px-3 py-2">
-            <form method="GET" action="#">
+            <form method="GET" action="/db/posts">
+                {{-- check if there is category query --}}
+                @if (request('category'))
+                    {{-- add input hidden that have default value whatever the current category is --}}
+                    <input type="hidden" name="category" value="{{ request('category') }}" />
+                @endif
                 <input type="text" name="search" placeholder="Find something"
                     class="bg-transparent placeholder-black font-semibold text-sm" value="{{ request('search') }}">
             </form>

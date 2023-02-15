@@ -54,9 +54,9 @@ Route::get('/db/posts/{post:slug}', [PostController::class, 'show']);
 // });
 
 // get all post by specific author
-Route::get('/db/author/{author:username}', function (User $author) {
-    return view('posts', [
-        'posts' => $author->posts->load(['author', 'category']),
-        'categories' => Category::all(),
-    ]);
-});
+// Route::get('/db/author/{author:username}', function (User $author) {
+//     return view('posts', [
+//         'posts' => $author->posts->load(['author', 'category']),
+//         'categories' => Category::all(),
+//     ]);
+// });

@@ -35,9 +35,13 @@ class PostDb extends Model
         // execute the query when there is filters with key search
         $query->when(
             $filters['search'] ?? false,
-            fn ($query, $search) => $query
-                ->where('title', 'ilike', '%' . $search . '%')
-                ->orWhere('body', 'ilike', '%' . $search . '%')
+            fn ($query, $search) => $query->where(
+                fn ($query) =>
+                $query
+                    ->where('title', 'ilike', '%' . $search . '%')
+                    ->orWhere('body', 'ilike', '%' . $search . '%')
+            )
+
         );
 
         // execute the query when there is filters with key category
@@ -45,15 +49,22 @@ class PostDb extends Model
             $filters['category'] ?? false,
             fn ($query, $category) =>
             $query->whereHas('category', fn ($query) => $query->where('slug', $category))
-            //  $query
-            //     ->whereExists(
-            //         fn ($query) =>
-            //         $query
-            //             ->from('categories')
-            //             ->whereColumn('categories.id', 'posts.category_id')
-            //             ->where('categories.slug', $category)
-            //     )
-
         );
+
+        // execute the query when there is filters with key author
+        $query->when(
+            $filters['author'] ?? false,
+            fn ($query, $author) =>
+            $query->whereHas('author', fn ($query) => $query->where('username', $author))
+        );
+        // long way
+        //  $query
+        //     ->whereExists(
+        //         fn ($query) =>
+        //         $query
+        //             ->from('categories')
+        //             ->whereColumn('categories.id', 'posts.category_id')
+        //             ->where('categories.slug', $category)
+        //     )
     }
 }
