@@ -42,7 +42,8 @@ Route::get('/db/posts', function () {
     return view('posts', [
         // eager load category and author data to avoid n+1 and get the latest data sorted by published at column
         'posts' => PostDb::with(['category', 'author'])->latest('published_at')->get(),
-        'categories' => Category::all()
+        'categories' => Category::all(),
+
     ]);
 });
 
