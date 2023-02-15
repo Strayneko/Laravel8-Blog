@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         PostDb::truncate();
 
         // seeding post with factory
-        PostDb::factory(5)->create();
+        PostDb::factory(20)->create();
 
         // manual factory
         //     // user factory

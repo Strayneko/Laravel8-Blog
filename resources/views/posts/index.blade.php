@@ -16,9 +16,11 @@
             {{-- Posts --}}
             <x-posts-grid :posts="$posts" />
             {{-- end of posts --}}
+            {{ $posts->links() }}
         @else
             <p class="text-center">No post available</p>
         @endif
+
     </main>
 
 
