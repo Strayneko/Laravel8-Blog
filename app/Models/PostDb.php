@@ -28,4 +28,16 @@ class PostDb extends Model
     {
         return $this->belongsTo(User::class, foreignKey: 'user_id');
     }
+
+    public function scopeFilter($query, array $filters)
+    { //  newQuery()->filter();
+
+        // execute the query when there is filters with key search
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) => $query
+                ->where('title', 'ilike', '%' . $search . '%')
+                ->orWhere('body', 'ilike', '%' . $search . '%')
+        );
+    }
 }

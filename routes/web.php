@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostDb;
@@ -38,22 +39,10 @@ Route::get('/posts/{slug}', function ($slug) {
 
 
 // with model and database
-Route::get('/db/posts', function () {
-    return view('posts', [
-        // eager load category and author data to avoid n+1 and get the latest data sorted by published at column
-        'posts' => PostDb::with(['category', 'author'])->latest('published_at')->get(),
-        'categories' => Category::all(),
-
-    ]);
-})->name('home');
+Route::get('/db/posts', [PostController::class, 'index'])->name('home');
 
 // route model binding
-Route::get('/db/posts/{post:slug}', function (PostDb $post) {
-    return view('post', [
-        'post' => $post,
-        'categories' => Category::all(),
-    ]);
-});
+Route::get('/db/posts/{post:slug}', [PostController::class, 'show']);
 
 
 Route::get('/db/category/{category:slug}', function (Category $category) {
