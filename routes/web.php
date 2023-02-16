@@ -17,6 +17,20 @@ use App\Http\Controllers\CommentController;
 |
 */
 
+Route::get('/ping', function () {
+    $mailchimp = new \MailchimpMarketing\ApiClient();
+
+    $mailchimp->setConfig([
+        'apiKey' => config('services.mailchimp.key'),
+        'server' => 'us21'
+    ]);
+
+    $response = $mailchimp->lists->addListMember('d6e4959b0c', [
+        'email_address' => 'itsuka.aikarey@gmail.com',
+        'status' => 'subscribed'
+    ]);
+    ddd($response);
+});
 
 // model only without database
 Route::get(
