@@ -29,6 +29,12 @@ class PostDb extends Model
         return $this->belongsTo(User::class, foreignKey: 'user_id');
     }
 
+    // relation to comments model
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, foreignKey: 'post_id');
+    }
+
     public function scopeFilter($query, array $filters)
     { //  newQuery()->filter();
 

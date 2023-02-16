@@ -8,6 +8,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class Post
 {
+
     public $title, $body, $excerpt, $date, $slug;
 
     public function __construct($title, $body, $excerpt, $date, $slug)
