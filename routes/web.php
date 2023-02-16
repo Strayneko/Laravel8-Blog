@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::get('/db/posts', [PostController::class, 'index'])->name('home');
 
 // route model binding
 Route::get('/db/posts/{post:slug}', [PostController::class, 'show']);
-
+Route::post('/db/posts/{post:slug}/comments', [CommentController::class, 'store']);
 
 
 Route::get('/auth/register', [RegisterController::class, 'create'])->middleware('guest');

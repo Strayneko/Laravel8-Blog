@@ -9,6 +9,7 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
 
     // relation to user model
     public function author()
