@@ -14,7 +14,7 @@ class PostDb extends Model
 
 
     // set fillable property to allow mass assignment
-    protected $fillable = ['title', 'slug', 'excerpt', 'category_id', 'body'];
+    protected $fillable = ['title', 'slug', 'excerpt', 'category_id', 'body', 'user_id'];
 
 
     // add relation to category model

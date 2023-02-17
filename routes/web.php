@@ -38,6 +38,12 @@ Route::post('/db/posts/{post:slug}/comments', [CommentController::class, 'store'
 // laravel single action controller
 Route::post('/newsletter', NewsletterController::class);
 
+
+// admin
+Route::get('/admin/posts/create', [PostController::class, 'create'])->middleware('isAdmin');
+Route::post('/admin/posts/store', [PostController::class, 'store'])->middleware('isAdmin');
+
+
 Route::get('/auth/register', [RegisterController::class, 'create'])->middleware('guest');
 Route::get('/auth/login', [SessionController::class, 'create'])->middleware('guest');
 Route::post('/auth/register', [RegisterController::class, 'store'])->middleware('guest');
