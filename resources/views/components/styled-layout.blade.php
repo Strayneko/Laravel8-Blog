@@ -26,15 +26,26 @@
             <div class="mt-8 md:mt-0 flex items-center">
 
                 @auth
-                    <span class="text-xs font-bold uppsercase">Welcome, {{ auth()->user()->name }}</span>
-
-                    {{-- logout btn --}}
-                    <form action="/auth/logout" method="POST" class="text-xs font-semibold text-blue-500 ml-3">
+                    <form class="hidden" id="logout-form" method="POST" action="/auth/logout"
+                        class="text-xs font-semibold text-blue-500 ml-6">
                         @csrf
-                        <button type="submit">
-                            Log out!
-                        </button>
+
+                        <button type="submit">Log Out</button>
                     </form>
+                    <x-dropdown>
+                        <x-slot name="trigger">
+                            <button class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}!</button>
+                        </x-slot>
+
+                        <x-dropdown-item href="/admin/dashboard">Dashboard</x-dropdown-item>
+                        <x-dropdown-item href="/admin/posts/create" :active="request()->is('admin/posts/create')">New Post</x-dropdown-item>
+                        <x-dropdown-item href="#" x-data="{}"
+                            @click.prevent="document.querySelector('#logout-form').submit()">Log Out</x-dropdown-item>
+
+                        <form id="logout-form" method="POST" action="/logout" class="hidden">
+                            @csrf
+                        </form>
+                    </x-dropdown>
                 @else
                     {{-- hide the button if user already logged in --}}
                     <a href="/auth/register" class="text-xs font-bold uppercase">Register</a>

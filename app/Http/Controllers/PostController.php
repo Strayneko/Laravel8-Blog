@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PostDb;
-use App\Models\Category;
-use Illuminate\Validation\Rule;
+
 
 class PostController extends Controller
 {
@@ -28,40 +27,5 @@ class PostController extends Controller
         return view('posts.show', [
             'post' => $post,
         ]);
-    }
-
-
-
-    public function create()
-    {
-        return view('posts.create', [
-            'categories' => Category::all(),
-        ]);
-    }
-
-    public function store()
-    {
-
-        // validate input
-        $attributes = request()->validate([
-            'title' => 'required',
-            'slug' => ['required', Rule::unique('posts', 'slug')],
-            'excerpt' => 'required',
-            'body' => 'required',
-            'thumbnail' => 'file|image|mimetypes:image/png,image/jpg,image/jpeg',
-            'category_id' => ['required', Rule::exists('categories', 'id')],
-        ]);
-
-        // check if user provide a thumbnail
-        if (request()->file('thumbnail')) {
-            $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail', 'public');
-        }
-
-        // add user id from the current authenticated user
-        $attributes['user_id'] = auth()->user()->id;
-        PostDb::create($attributes);
-
-        // redirect and give feedback message
-        return redirect('/db/posts')->with('success', 'Post has been added!');
     }
 }

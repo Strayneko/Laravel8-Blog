@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
@@ -40,8 +41,12 @@ Route::post('/newsletter', NewsletterController::class);
 
 
 // admin
-Route::get('/admin/posts/create', [PostController::class, 'create'])->middleware('isAdmin');
-Route::post('/admin/posts/store', [PostController::class, 'store'])->middleware('isAdmin');
+Route::get('/admin/dashboard', [AdminPostController::class, 'index'])->middleware('isAdmin');
+Route::get('/admin/posts/create', [AdminPostController::class, 'create'])->middleware('isAdmin');
+Route::get('/admin/posts/{post}/edit', [AdminPostController::class, 'edit'])->middleware('isAdmin');
+Route::post('/admin/posts/store', [AdminPostController::class, 'store'])->middleware('isAdmin');
+Route::patch('/admin/posts/{post}/update', [AdminPostController::class, 'update'])->middleware('isAdmin');
+Route::delete('/admin/posts/{post}/delete', [AdminPostController::class, 'destroy'])->middleware('isAdmin');
 
 
 Route::get('/auth/register', [RegisterController::class, 'create'])->middleware('guest');
