@@ -5,6 +5,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NewsletterController;
+use App\Services\Newsletter;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,23 +19,6 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::post('/newsletter', function () {
-    $mailchimp = new \MailchimpMarketing\ApiClient();
-
-    $mailchimp->setConfig([
-        'apiKey' => config('services.mailchimp.key'),
-        'server' => 'us21'
-    ]);
-    try {
-        $response = $mailchimp->lists->addListMember('d6e4959b0c', [
-            'email_address' => request('email'),
-            'status' => 'subscribed'
-        ]);
-    } catch (\Exception $e) {
-        throw \Illuminate\Validation\ValidationException::withMessages(['email' => 'This email could be added to our newsletter list']);
-    }
-    return redirect()->back()->with('success', 'You have subscribed successfully!');
-});
 
 // model only without database
 Route::get(
@@ -50,6 +35,8 @@ Route::get('/db/posts', [PostController::class, 'index'])->name('home');
 Route::get('/db/posts/{post:slug}', [PostController::class, 'show']);
 Route::post('/db/posts/{post:slug}/comments', [CommentController::class, 'store']);
 
+// laravel single action controller
+Route::post('/newsletter', NewsletterController::class);
 
 Route::get('/auth/register', [RegisterController::class, 'create'])->middleware('guest');
 Route::get('/auth/login', [SessionController::class, 'create'])->middleware('guest');
