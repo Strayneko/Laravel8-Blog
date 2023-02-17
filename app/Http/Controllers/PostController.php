@@ -48,8 +48,14 @@ class PostController extends Controller
             'slug' => ['required', Rule::unique('posts', 'slug')],
             'excerpt' => 'required',
             'body' => 'required',
+            'thumbnail' => 'file|image|mimetypes:image/png,image/jpg,image/jpeg',
             'category_id' => ['required', Rule::exists('categories', 'id')],
         ]);
+
+        // check if user provide a thumbnail
+        if (request()->file('thumbnail')) {
+            $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail', 'public');
+        }
 
         // add user id from the current authenticated user
         $attributes['user_id'] = auth()->user()->id;

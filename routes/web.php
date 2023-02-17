@@ -45,7 +45,8 @@ Route::post('/admin/posts/store', [PostController::class, 'store'])->middleware(
 
 
 Route::get('/auth/register', [RegisterController::class, 'create'])->middleware('guest');
-Route::get('/auth/login', [SessionController::class, 'create'])->middleware('guest');
+Route::get('/auth/login', [SessionController::class, 'create'])
+    ->name('login')->middleware('guest');
 Route::post('/auth/register', [RegisterController::class, 'store'])->middleware('guest');
 Route::post('/auth/login', [SessionController::class, 'store'])->middleware('guest');
 Route::post('/auth/logout', [SessionController::class, 'destroy'])->middleware('auth');
