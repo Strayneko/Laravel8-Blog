@@ -30,14 +30,7 @@ class AdminPostController extends Controller
     {
 
         // validate input
-        $attributes = request()->validate([
-            'title' => 'required',
-            'slug' => ['required', Rule::unique('posts', 'slug')],
-            'excerpt' => 'required',
-            'body' => 'required',
-            'thumbnail' => 'file|image|mimetypes:image/png,image/jpg,image/jpeg',
-            'category_id' => ['required', Rule::exists('categories', 'id')],
-        ]);
+        $attributes = $this->validatePost();
 
         // check if user provide a thumbnail
         if (request()->file('thumbnail')) {
@@ -65,14 +58,7 @@ class AdminPostController extends Controller
     public function update(PostDb $post)
     {
         // validate input
-        $attributes = request()->validate([
-            'title' => 'required',
-            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post->id)],
-            'excerpt' => 'required',
-            'body' => 'required',
-            'thumbnail' => 'file|image|mimetypes:image/png,image/jpg,image/jpeg',
-            'category_id' => ['required', Rule::exists('categories', 'id')],
-        ]);
+        $attributes = $this->validatePost($post);
 
         if (isset($attributes['thumbnail'])) {
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail', 'public');
@@ -93,5 +79,19 @@ class AdminPostController extends Controller
         Storage::disk('public')->delete($post->thumbnail);
 
         return redirect()->back()->with('success', 'Post deleted');
+    }
+
+    protected function validatePost(?PostDb $post = null): array
+    {
+        $post ??= new PostDb();
+
+        return request()->validate([
+            'title' => 'required',
+            'thumbnail' => $post->exists ? ['image'] : ['required', 'image'],
+            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post->id)],
+            'excerpt' => 'required',
+            'body' => 'required',
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+        ]);
     }
 }
